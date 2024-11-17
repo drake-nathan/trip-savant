@@ -5,10 +5,10 @@
 - [x] Deploy to Vercel
 - [x] Update packages
 - [x] Prettier
-- [ ] ESLint
+- [x] ESLint
+- [ ] Basic UI w/mock data
 - [ ] CI
 - [ ] Analytics
-- [ ] Basic UI w/mock data
 - [ ] Setup DB
 - [ ] Attach DB to UI
 - [ ] Add Clerk auth

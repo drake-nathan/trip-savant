@@ -10,12 +10,14 @@ export const metadata: Metadata = {
   title: "Create T3 App",
 };
 
-export default function RootLayout({
+const Layout = ({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ children: React.ReactNode }>): React.JSX.Element => {
   return (
     <html className={`${GeistSans.variable}`} lang="en">
       <body>{children}</body>
     </html>
   );
-}
+};
+
+export default Layout;
