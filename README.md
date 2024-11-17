@@ -4,7 +4,7 @@
 
 - [x] Deploy to Vercel
 - [x] Update packages
-- [ ] Prettier
+- [x] Prettier
 - [ ] ESLint
 - [ ] CI
 - [ ] Analytics
