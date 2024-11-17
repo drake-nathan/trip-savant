@@ -2,8 +2,8 @@
 
 ## TODO
 
-- [ ] Deploy to Vercel
-- [ ] Update packages
+- [x] Deploy to Vercel
+- [x] Update packages
 - [ ] Prettier
 - [ ] ESLint
 - [ ] CI
