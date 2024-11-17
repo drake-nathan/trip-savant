@@ -6,10 +6,10 @@
 - [x] Update packages
 - [x] Prettier
 - [x] ESLint
-- [ ] Basic UI w/mock data
+- [x] Basic UI w/mock data
+- [x] Add Clerk auth
 - [ ] CI
 - [ ] Analytics
 - [ ] Setup DB
 - [ ] Attach DB to UI
-- [ ] Add Clerk auth
 - [ ] Error management w/Sentry

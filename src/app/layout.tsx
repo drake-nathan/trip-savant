@@ -2,6 +2,13 @@ import "@/styles/globals.css";
 
 import type { Metadata } from "next";
 
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
@@ -14,9 +21,19 @@ const Layout = ({
   children,
 }: Readonly<{ children: React.ReactNode }>): React.JSX.Element => {
   return (
-    <html className={`${GeistSans.variable}`} lang="en">
-      <body>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html className={`${GeistSans.variable}`} lang="en">
+        <body>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 };
 
