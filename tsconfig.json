@@ -30,6 +30,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".storybook/**/*"
   ]
 }

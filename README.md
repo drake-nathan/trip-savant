@@ -8,6 +8,7 @@
 - [x] ESLint
 - [x] Basic UI w/mock data
 - [x] Add Clerk auth
+- [x] Storybook
 - [ ] CI
 - [ ] Analytics
 - [ ] Setup DB

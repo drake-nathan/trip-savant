@@ -7,6 +7,7 @@ const config = {
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:perfectionist/recommended-natural-legacy",
     "plugin:tailwindcss/recommended",
+    "plugin:storybook/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -19,6 +20,7 @@ const config = {
     "tailwindcss",
     "prefer-arrow-functions",
     "unicorn",
+    "storybook",
   ],
   reportUnusedDisableDirectives: true,
   rules: {
@@ -128,10 +130,10 @@ const config = {
     "no-implied-eval": "error",
     "no-iterator": "error",
     "no-label-var": "error",
-    "no-labels": ["error"],
+    "no-labels": "error",
     "no-lone-blocks": "error",
     "no-lonely-if": "warn",
-    "no-multi-assign": ["error"],
+    "no-multi-assign": "error",
     "no-nested-ternary": "error",
     "no-new": "error",
     "no-new-func": "error",

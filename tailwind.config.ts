@@ -57,7 +57,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        "varela-round": ["var(--font-varela-round)", ...fontFamily.sans],
       },
     },
   },
