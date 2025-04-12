@@ -1,4 +1,4 @@
-/** @type {import('prettier').Config & import('prettier-plugin-tailwindcss').PluginOptions} */
-export default {
-  plugins: ["prettier-plugin-tailwindcss"],
-};
+// @ts-check
+import { prettierConfig } from "js-style-kit";
+
+export default prettierConfig({});
