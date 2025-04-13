@@ -2,13 +2,12 @@
 
 ## TODO
 
-- [ ] Setup js-style-kit
-- [ ] Deploy frontend
-- [ ] Deploy db
-- [ ] Setup CI
-- [ ] Setup shadcn
-- [ ] Scaffold UI
+- [x] Setup js-style-kit
+- [x] Deploy frontend
+- [x] Deploy db
+- [x] Setup shadcn
+- [x] Scaffold UI
 - [ ] Setup theme + dark mode
 - [ ] Setup database
+- [ ] Setup CI
 - [ ] Setup auth
-- [ ] Setup API

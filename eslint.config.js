@@ -12,4 +12,19 @@ export default eslintConfig(
   // @ts-expect-error - eslint types are weird
   eslintPluginImportX.recommended,
   eslintPluginImportX.typescript,
+  {
+    rules: {
+      "import-x/default": "off",
+      "import-x/export": "off",
+      "import-x/named": "off",
+      "import-x/namespace": "off",
+      "import-x/no-unresolved": "off",
+      "perfectionist/sort-imports": [
+        "warn",
+        {
+          internalPattern: ["^@/.+"],
+        },
+      ],
+    },
+  },
 );

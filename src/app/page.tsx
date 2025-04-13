@@ -1,51 +1,120 @@
-import { LatestPost } from "@/app/_components/post";
-import { api, HydrateClient } from "@/trpc/server";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Calendar, DollarSign, Map, PlaneTakeoff } from "lucide-react";
 import Link from "next/link";
 
-const Home = async () => {
-  const hello = await api.post.hello({ text: "from tRPC" });
-
-  void api.post.getLatest.prefetch();
-
+const Home = () => {
   return (
-    <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-          </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">{hello.greeting}</p>
-          </div>
-
-          <LatestPost />
+    <div className="space-y-8">
+      <div className="space-y-4 py-10 text-center">
+        <h1 className="text-4xl font-bold tracking-tight">
+          Welcome to Travel Savant
+        </h1>
+        <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
+          Plan your trips, manage your budget, and organize your itinerary all
+          in one place.
+        </p>
+        <div className="flex justify-center gap-4 pt-4">
+          <Button asChild size="lg">
+            <Link href="/trips/new">Create New Trip</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link href="/trips">View My Trips</Link>
+          </Button>
         </div>
-      </main>
-    </HydrateClient>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="space-y-1">
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <PlaneTakeoff className="h-6 w-6" />
+              Trip Planning
+            </CardTitle>
+            <CardDescription>Create and manage your trips</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>
+              Organize your trips with details like dates, locations, and
+              status.
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full" variant="ghost">
+              <Link href="/trips/new">Create Trip</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader className="space-y-1">
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <DollarSign className="h-6 w-6" />
+              Budget Tracking
+            </CardTitle>
+            <CardDescription>Manage your travel expenses</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>
+              Track pre-trip expenses, daily budgets, and monitor your spending.
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full" variant="ghost">
+              <Link href="/trips">Manage Budgets</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader className="space-y-1">
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <Calendar className="h-6 w-6" />
+              Daily Planner
+            </CardTitle>
+            <CardDescription>Plan each day of your trip</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>
+              Schedule activities, meals, and transportation for each day of
+              your journey.
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full" variant="ghost">
+              <Link href="/trips">View Planners</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader className="space-y-1">
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <Map className="h-6 w-6" />
+              Trip Overview
+            </CardTitle>
+            <CardDescription>Get a complete view of your trip</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>
+              See all your trip details, budget, and daily plans in one place.
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full" variant="ghost">
+              <Link href="/trips">View Trips</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
   );
 };
 
