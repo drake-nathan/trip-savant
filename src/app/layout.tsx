@@ -2,11 +2,11 @@ import "@/styles/globals.css";
 
 import type { Metadata } from "next";
 
-import { Geist } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { Header } from "@/components/header";
-import { TRPCReactProvider } from "@/trpc/react";
+import { Providers } from "@/providers";
 
 export const metadata: Metadata = {
   description: "Plan your trips with ease",
@@ -14,19 +14,19 @@ export const metadata: Metadata = {
   title: "Trip Savant",
 };
 
-const geist = Geist({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-outfit",
 });
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
-  <html className={geist.variable} lang="en">
+  <html className={outfit.variable} lang="en" suppressHydrationWarning>
     <body>
-      <TRPCReactProvider>
+      <Providers>
         <Header />
         <main className="container mx-auto px-4 py-6">{children}</main>
         <Toaster />
-      </TRPCReactProvider>
+      </Providers>
     </body>
   </html>
 );

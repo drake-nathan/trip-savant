@@ -7,7 +7,7 @@
 - [x] Deploy db
 - [x] Setup shadcn
 - [x] Scaffold UI
-- [ ] Setup theme + dark mode
+- [x] Setup theme + dark mode
 - [ ] Setup database
 - [ ] Setup CI
 - [ ] Setup auth

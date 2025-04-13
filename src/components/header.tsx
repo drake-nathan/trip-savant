@@ -22,12 +22,12 @@ export const Header = () => {
 
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="flex h-16 w-full items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <Link className="flex items-center gap-2" href="/">
             <PlaneTakeoff className="h-6 w-6" />
             <span className="hidden text-xl font-bold sm:inline-block">
-              Travel Savant
+              Trip Savant
             </span>
           </Link>
           <nav className="ml-6 hidden items-center gap-6 md:flex">
