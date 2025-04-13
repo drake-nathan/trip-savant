@@ -2,6 +2,13 @@
 
 import type React from "react";
 
+import { format } from "date-fns";
+import { Building, CalendarIcon, Car, PlaneTakeoff } from "lucide-react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -28,12 +35,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { mockTrips } from "@/lib/mock-data";
-import { format } from "date-fns";
-import { Building, CalendarIcon, Car, PlaneTakeoff } from "lucide-react";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
 
 const EditTripPage = () => {
   const params = useParams();

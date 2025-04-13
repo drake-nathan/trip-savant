@@ -1,3 +1,6 @@
+import { Calendar, DollarSign, Map, PlaneTakeoff } from "lucide-react";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,8 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, DollarSign, Map, PlaneTakeoff } from "lucide-react";
-import Link from "next/link";
 
 const Home = () => {
   return (

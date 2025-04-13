@@ -1,5 +1,20 @@
 "use client";
 
+import { addDays, differenceInDays, format } from "date-fns";
+import {
+  ArrowLeft,
+  Building,
+  Calendar,
+  Car,
+  Edit,
+  PlaneTakeoff,
+  Trash2,
+} from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,20 +38,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { mockTrips } from "@/lib/mock-data";
-import { addDays, differenceInDays, format } from "date-fns";
-import {
-  ArrowLeft,
-  Building,
-  Calendar,
-  Car,
-  Edit,
-  PlaneTakeoff,
-  Trash2,
-} from "lucide-react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
 
 const TripDetailsPage = () => {
   const params = useParams();
