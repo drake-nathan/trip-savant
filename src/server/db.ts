@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
 import { env } from "@/env";
+import { PrismaClient } from "@/generated/client";
 
 const createPrismaClient = () =>
   new PrismaClient({

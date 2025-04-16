@@ -10,8 +10,9 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import { toast } from "sonner";
+
+import type { TripStatus } from "@/generated/client";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,17 +25,32 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { mockTrips } from "@/lib/mock-data";
+import { api } from "@/trpc/react";
 
 const Trips = () => {
-  const [trips, setTrips] = useState(mockTrips);
+  // Fetch trips from API
+  const { data: trips = [], refetch } = api.trip.getAll.useQuery();
+
+  // Handle loading state
+  // const isLoading = false; // Uncomment when needed
+  // const error = null; // Uncomment when needed
+
+  // Delete trip mutation
+  const deleteTripMutation = api.trip.delete.useMutation({
+    onError: (error) => {
+      toast.error(`Error deleting trip: ${error.message}`);
+    },
+    onSuccess: () => {
+      toast("The trip has been successfully deleted.");
+      void refetch(); // Refetch the trips list after deletion
+    },
+  });
 
   const deleteTrip = (id: string) => {
-    setTrips(trips.filter((trip) => trip.id !== id));
-    toast("The trip has been successfully deleted.");
+    deleteTripMutation.mutate({ id });
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: TripStatus) => {
     switch (status.toLowerCase()) {
       case "booked": {
         return "bg-green-500/20 text-green-700 dark:text-green-400";
@@ -44,9 +60,6 @@ const Trips = () => {
       }
       case "planning": {
         return "bg-blue-500/20 text-blue-700 dark:text-blue-400";
-      }
-      default: {
-        return "bg-gray-500/20 text-gray-700 dark:text-gray-400";
       }
     }
   };
@@ -100,7 +113,7 @@ const Trips = () => {
                       <div className="flex items-center gap-2">
                         <DollarSign className="text-muted-foreground h-4 w-4" />
                         <span>
-                          Budget: ${trip.budget.total.toLocaleString()}
+                          Budget: ${trip.budget?.total.toLocaleString() ?? 0}
                         </span>
                       </div>
                       {trip.flight ?
@@ -168,7 +181,7 @@ const Trips = () => {
                       <div className="flex items-center gap-2">
                         <DollarSign className="text-muted-foreground h-4 w-4" />
                         <span>
-                          Budget: ${trip.budget.total.toLocaleString()}
+                          Budget: ${trip.budget?.total.toLocaleString() ?? 0}
                         </span>
                       </div>
                     </div>
@@ -223,7 +236,7 @@ const Trips = () => {
                       <div className="flex items-center gap-2">
                         <DollarSign className="text-muted-foreground h-4 w-4" />
                         <span>
-                          Budget: ${trip.budget.total.toLocaleString()}
+                          Budget: ${trip.budget?.total.toLocaleString() ?? 0}
                         </span>
                       </div>
                     </div>
@@ -278,7 +291,7 @@ const Trips = () => {
                       <div className="flex items-center gap-2">
                         <DollarSign className="text-muted-foreground h-4 w-4" />
                         <span>
-                          Budget: ${trip.budget.total.toLocaleString()}
+                          Budget: ${trip.budget?.total.toLocaleString() ?? 0}
                         </span>
                       </div>
                       {trip.flight ?

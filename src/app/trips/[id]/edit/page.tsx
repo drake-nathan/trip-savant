@@ -34,14 +34,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { mockTrips } from "@/lib/mock-data";
+import { api } from "@/trpc/react";
 
 const EditTripPage = () => {
   const params = useParams();
   const router = useRouter();
 
-  // Find the trip by ID from our mock data
-  const trip = mockTrips.find((t) => t.id === params.id);
+  // Fetch the trip by ID using tRPC
+  const { id } = params;
+  const {
+    data: trip,
+    error,
+    isLoading,
+  } = api.trip.getById.useQuery({ id: id as string });
 
   const [startDate, setStartDate] = useState<Date | undefined>(
     trip ? new Date(trip.startDate) : undefined,
@@ -50,7 +55,15 @@ const EditTripPage = () => {
     trip ? new Date(trip.endDate) : undefined,
   );
 
-  if (!trip) {
+  if (isLoading) {
+    return (
+      <div className="py-10 text-center">
+        <h1 className="mb-4 text-2xl font-bold">Loading...</h1>
+      </div>
+    );
+  }
+
+  if (error || !trip) {
     return (
       <div className="py-10 text-center">
         <h1 className="mb-4 text-2xl font-bold">Trip not found</h1>
@@ -172,14 +185,14 @@ const EditTripPage = () => {
                 <Label className="flex items-center gap-2" htmlFor="flight">
                   <PlaneTakeoff className="h-4 w-4" /> Flight Details
                 </Label>
-                <Input defaultValue={trip.flight} id="flight" />
+                <Input defaultValue={trip.flight ?? ""} id="flight" />
               </div>
 
               <div className="space-y-2">
                 <Label className="flex items-center gap-2" htmlFor="lodging">
                   <Building className="h-4 w-4" /> Lodging
                 </Label>
-                <Input defaultValue={trip.lodging} id="lodging" />
+                <Input defaultValue={trip.lodging ?? ""} id="lodging" />
               </div>
 
               <div className="space-y-2">
@@ -189,7 +202,7 @@ const EditTripPage = () => {
                 >
                   <Car className="h-4 w-4" /> Local Transportation
                 </Label>
-                <Select defaultValue={trip.transportation || ""}>
+                <Select defaultValue={trip.transportation ?? ""}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select transportation type" />
                   </SelectTrigger>
@@ -207,7 +220,7 @@ const EditTripPage = () => {
             <div className="space-y-2">
               <Label htmlFor="budget">Total Budget ($)</Label>
               <Input
-                defaultValue={trip.budget.total}
+                defaultValue={trip.budget?.total.toString() ?? ""}
                 id="budget"
                 type="number"
               />

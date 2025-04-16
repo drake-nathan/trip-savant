@@ -1,5 +1,7 @@
 "use client";
 
+import type { Decimal } from "@prisma/client/runtime/library";
+
 import { addDays, differenceInDays, format } from "date-fns";
 import {
   ArrowLeft,
@@ -37,16 +39,42 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { mockTrips } from "@/lib/mock-data";
+import { ExpenseType } from "@/generated/client";
+import { api } from "@/trpc/react";
+
+// Define the Activity interface based on the DB schema
+interface Activity {
+  budget: Decimal;
+  createdAt: Date;
+  dailyPlanId: string;
+  description: null | string;
+  id: string;
+  time: null | string;
+  title: string;
+  updatedAt: Date;
+}
 
 const TripDetailsPage = () => {
   const params = useParams();
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Find the trip by ID from our mock data
-  const trip = mockTrips.find((t) => t.id === params.id);
+  // Fetch the trip by ID using tRPC
+  const { id } = params;
+  const {
+    data: trip,
+    error,
+    isLoading,
+  } = api.trip.getById.useQuery({ id: id as string });
 
-  if (!trip) {
+  if (isLoading) {
+    return (
+      <div className="py-10 text-center">
+        <h1 className="mb-4 text-2xl font-bold">Loading...</h1>
+      </div>
+    );
+  }
+
+  if (error || !trip) {
     return (
       <div className="py-10 text-center">
         <h1 className="mb-4 text-2xl font-bold">Trip not found</h1>
@@ -70,14 +98,16 @@ const TripDetailsPage = () => {
   for (let i = 0; i < tripDuration; i++) {
     const currentDate = addDays(new Date(trip.startDate), i);
     dailyPlanners.push({
+      activities: trip.dailyPlans[i]?.activities ?? [],
       date: currentDate,
-      plans: trip.dailyPlans[i]?.plans ?? [],
     });
   }
 
   // Calculate budget progress
-  const spentAmount = trip.budget.spent;
-  const spentPercentage = (spentAmount / trip.budget.total) * 100;
+  const spentAmount = trip.budget ? Number(trip.budget.spent) : 0;
+  const totalBudget = trip.budget ? Number(trip.budget.total) : 0;
+  const spentPercentage =
+    totalBudget > 0 ? (spentAmount / totalBudget) * 100 : 0;
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -185,7 +215,7 @@ const TripDetailsPage = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Total Budget</span>
                   <span className="font-medium">
-                    ${trip.budget.total.toLocaleString()}
+                    ${totalBudget.toLocaleString()}
                   </span>
                 </div>
 
@@ -199,7 +229,7 @@ const TripDetailsPage = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Remaining</span>
                   <span className="font-medium">
-                    ${(trip.budget.total - spentAmount).toLocaleString()}
+                    ${(totalBudget - spentAmount).toLocaleString()}
                   </span>
                 </div>
 
@@ -231,24 +261,28 @@ const TripDetailsPage = () => {
               <CardDescription>Your next few activities</CardDescription>
             </CardHeader>
             <CardContent>
-              {/* @ts-expect-error will fix later */}
-              {dailyPlanners[0]?.plans.length > 0 ?
+              {dailyPlanners[0] && dailyPlanners[0].activities.length > 0 ?
                 <div className="space-y-4">
-                  {dailyPlanners[0]?.plans.slice(0, 3).map((plan) => (
-                    <div className="flex items-start gap-3" key={plan.title}>
-                      <Calendar className="text-muted-foreground mt-0.5 h-5 w-5" />
-                      <div>
-                        <h3 className="font-medium">
-                          {plan.time} - {plan.title}
-                        </h3>
-                        <p className="text-muted-foreground">
-                          {plan.description}
-                        </p>
+                  {dailyPlanners[0].activities
+                    .slice(0, 3)
+                    .map((activity: Activity) => (
+                      <div className="flex items-start gap-3" key={activity.id}>
+                        <Calendar className="text-muted-foreground mt-0.5 h-5 w-5" />
+                        <div>
+                          <h3 className="font-medium">
+                            {activity.time ?? ""} - {activity.title}
+                          </h3>
+                          <p className="text-muted-foreground">
+                            {activity.description}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
-              : <p className="text-muted-foreground">No plans added yet.</p>}
+              : <p className="text-muted-foreground">
+                  No activities added yet.
+                </p>
+              }
             </CardContent>
             <CardFooter>
               <Button
@@ -270,7 +304,7 @@ const TripDetailsPage = () => {
               <div className="flex items-center justify-between">
                 <CardTitle>Budget Summary</CardTitle>
                 <div className="text-2xl font-bold">
-                  ${trip.budget.total.toLocaleString()}
+                  ${trip.budget?.total.toLocaleString()}
                 </div>
               </div>
               <CardDescription>Track your expenses and budget</CardDescription>
@@ -281,7 +315,7 @@ const TripDetailsPage = () => {
                   <span>Spent: ${spentAmount.toLocaleString()}</span>
                   <span>
                     Remaining: $
-                    {(trip.budget.total - spentAmount).toLocaleString()}
+                    {(totalBudget - spentAmount).toLocaleString()}
                   </span>
                 </div>
                 <Progress value={spentPercentage} />
@@ -292,37 +326,48 @@ const TripDetailsPage = () => {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="font-medium">Pre-Trip Expenses</h3>
-                  <span>${trip.budget.preTrip.toLocaleString()}</span>
+                  <span>${trip.budget?.preTrip.toLocaleString()}</span>
                 </div>
 
-                {trip.budget.expenses.preTrip.map((expense) => (
-                  <div
-                    className="flex items-center justify-between pl-4"
-                    key={expense.description}
-                  >
-                    <span className="text-muted-foreground">
-                      {expense.description}
-                    </span>
-                    <span>${expense.amount.toLocaleString()}</span>
-                  </div>
-                ))}
+                {trip.budget?.expenses.map((expense) => {
+                  if (expense.expenseType === ExpenseType.PreTrip) {
+                    return (
+                      <div
+                        className="flex items-center justify-between pl-4"
+                        key={expense.description}
+                      >
+                        <span className="text-muted-foreground">
+                          {expense.description}
+                        </span>
+                        <span>${expense.amount.toLocaleString()}</span>
+                      </div>
+                    );
+                  }
+
+                  return null;
+                })}
 
                 <div className="flex items-center justify-between">
                   <h3 className="font-medium">Daily Budget</h3>
-                  <span>${trip.budget.daily.toLocaleString()} / day</span>
+                  <span>${trip.budget?.daily.toLocaleString()} / day</span>
                 </div>
 
-                {trip.budget.expenses.daily.map((expense) => (
-                  <div
-                    className="flex items-center justify-between pl-4"
-                    key={expense.description}
-                  >
-                    <span className="text-muted-foreground">
-                      {expense.description}
-                    </span>
-                    <span>${expense.amount.toLocaleString()}</span>
-                  </div>
-                ))}
+                {trip.budget?.expenses.map((expense) => {
+                  if (expense.expenseType === ExpenseType.Daily) {
+                    return (
+                      <div
+                        className="flex items-center justify-between pl-4"
+                        key={expense.description}
+                      >
+                        <span className="text-muted-foreground">
+                          {expense.description}
+                        </span>
+                        <span>${expense.amount.toLocaleString()}</span>
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
               </div>
 
               <Separator />
@@ -379,25 +424,25 @@ const TripDetailsPage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {day.plans.length > 0 ?
-                  day.plans.map((plan) => (
-                    <div className="flex items-start gap-3" key={plan.title}>
+                {day.activities.length > 0 ?
+                  day.activities.map((activity: Activity) => (
+                    <div className="flex items-start gap-3" key={activity.id}>
                       <div className="bg-muted w-16 rounded-md p-2 text-center">
-                        <span className="text-sm font-medium">{plan.time}</span>
+                        <span className="text-sm font-medium">
+                          {activity.time ?? ""}
+                        </span>
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-medium">{plan.title}</h3>
+                        <h3 className="font-medium">{activity.title}</h3>
                         <p className="text-muted-foreground">
-                          {plan.description}
+                          {activity.description}
                         </p>
-                        {plan.budget ?
-                          <div className="mt-1 text-sm">
-                            <span className="text-muted-foreground">
-                              Budget:{" "}
-                            </span>
-                            <span>${plan.budget}</span>
-                          </div>
-                        : null}
+                        <div className="mt-1 text-sm">
+                          <span className="text-muted-foreground">
+                            Budget:{" "}
+                          </span>
+                          <span>${activity.budget.toString()}</span>
+                        </div>
                       </div>
                       <Button size="icon" variant="ghost">
                         <Trash2 className="h-4 w-4" />
@@ -406,7 +451,7 @@ const TripDetailsPage = () => {
                     </div>
                   ))
                 : <p className="text-muted-foreground">
-                    No plans for this day yet.
+                    No activities for this day yet.
                   </p>
                 }
 

@@ -1,7 +1,7 @@
 import { env } from "@/env.js";
 import { ExpenseType, PrismaClient, type TripStatus } from "@/generated/client";
 
-import { mockTrips } from "../src/lib/mock-data.js";
+import { mockTrips } from "./mock-data.js";
 
 const prisma = new PrismaClient();
 
