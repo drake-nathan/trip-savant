@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
+import type React from "react";
 
-import { Inter } from "next/font/google";
+import { DM_Sans, Space_Grotesk } from "next/font/google";
 
 import "./globals.css";
 
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
+const spaceGrotesk = Space_Grotesk({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+});
 
-const inter = Inter({ subsets: ["latin"] });
+const dmSans = DM_Sans({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+});
 
 export const metadata: Metadata = {
-  description: "Modern, minimalist travel planning.",
-  title: "Trip Savant",
+  description:
+    "Track every expense, plan every day, and turn your travel dreams into reality with intelligent budget management and seamless itinerary planning.",
+  title: "Trip Savant - Your next adventure, perfectly planned",
 };
 
 const RootLayout = ({
@@ -20,18 +29,11 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          disableTransitionOnChange
-          enableSystem
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
-      </body>
+    <html
+      className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased`}
+      lang="en"
+    >
+      <body>{children}</body>
     </html>
   );
 };
