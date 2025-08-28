@@ -1,4 +1,5 @@
 import { Calendar, DollarSign, MapPin, Star } from "lucide-react";
+import Link from "next/link";
 
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -27,9 +28,11 @@ const Home = () => {
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <Button className="text-base" size="lg">
-              Get Started
-            </Button>
+            <Link href="/get-started">
+              <Button className="text-base" size="lg">
+                Get Started
+              </Button>
+            </Link>
             <Button className="text-base" size="lg" variant="outline">
               Learn More
             </Button>
