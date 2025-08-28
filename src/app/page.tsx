@@ -1,102 +1,118 @@
-import Image from "next/image";
+import { Calendar, DollarSign, MapPin, Star } from "lucide-react";
+
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 const Home = () => {
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-sans sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start">
-        <Image
-          alt="Next.js logo"
-          className="dark:invert"
-          height={38}
-          priority
-          src="/next.svg"
-          width={180}
-        />
-        <ol className="list-inside list-decimal text-center font-mono text-sm/6 sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-mono font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="bg-background min-h-screen">
+      {/* Header */}
+      <header className="border-border border-b">
+        <div className="container mx-auto flex items-center justify-between px-4 py-4">
+          <h1 className="text-foreground text-2xl font-bold">Trip Savant</h1>
+          <ThemeToggle />
+        </div>
+      </header>
 
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm font-medium transition-colors hover:bg-[#383838] sm:h-12 sm:w-auto sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <Image
-              alt="Vercel logomark"
-              className="dark:invert"
-              height={20}
-              src="/vercel.svg"
-              width={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm font-medium transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:w-auto sm:px-5 sm:text-base md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Read our docs
-          </a>
+      {/* Hero Section */}
+      <main className="container mx-auto px-4 py-16">
+        <div className="text-center">
+          <h2 className="text-foreground text-4xl font-bold md:text-6xl">
+            Plan Your Perfect Trip
+          </h2>
+          <p className="text-muted-foreground mt-6 text-lg md:text-xl">
+            Create detailed itineraries, manage budgets, and discover your next
+            adventure with Trip Savant
+          </p>
+
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+            <Button className="text-base" size="lg">
+              Get Started
+            </Button>
+            <Button className="text-base" size="lg" variant="outline">
+              Learn More
+            </Button>
+          </div>
+        </div>
+
+        {/* Features Grid */}
+        <div className="mt-20 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <Card className="p-6 text-center">
+            <div className="bg-primary text-primary-foreground mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg">
+              <MapPin className="h-6 w-6" />
+            </div>
+            <h3 className="text-foreground mb-2 text-lg font-semibold">
+              Trip Planning
+            </h3>
+            <p className="text-muted-foreground">
+              Add and organize your trips with detailed information and
+              preferences
+            </p>
+          </Card>
+
+          <Card className="p-6 text-center">
+            <div className="bg-primary text-primary-foreground mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg">
+              <Calendar className="h-6 w-6" />
+            </div>
+            <h3 className="text-foreground mb-2 text-lg font-semibold">
+              Itineraries
+            </h3>
+            <p className="text-muted-foreground">
+              Create day-by-day itineraries with activities, locations, and
+              timing
+            </p>
+          </Card>
+
+          <Card className="p-6 text-center">
+            <div className="bg-primary text-primary-foreground mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg">
+              <DollarSign className="h-6 w-6" />
+            </div>
+            <h3 className="text-foreground mb-2 text-lg font-semibold">
+              Budget Tracking
+            </h3>
+            <p className="text-muted-foreground">
+              Keep track of expenses and stay within your budget for every trip
+            </p>
+          </Card>
+
+          <Card className="p-6 text-center">
+            <div className="bg-primary text-primary-foreground mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg">
+              <Star className="h-6 w-6" />
+            </div>
+            <h3 className="text-foreground mb-2 text-lg font-semibold">
+              Destination Ratings
+            </h3>
+            <p className="text-muted-foreground">
+              Rate and review destinations to help plan your next adventure
+            </p>
+          </Card>
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-20 text-center">
+          <Card className="mx-auto max-w-2xl p-8">
+            <h3 className="text-foreground text-2xl font-bold">
+              Ready to start planning?
+            </h3>
+            <p className="text-muted-foreground mt-4">
+              Join thousands of travelers who trust Trip Savant to organize
+              their adventures
+            </p>
+            <Button className="mt-6" size="lg">
+              Start Your First Trip
+            </Button>
+          </Card>
         </div>
       </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image
-            alt="File icon"
-            aria-hidden
-            height={16}
-            src="/file.svg"
-            width={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image
-            alt="Window icon"
-            aria-hidden
-            height={16}
-            src="/window.svg"
-            width={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image
-            alt="Globe icon"
-            aria-hidden
-            height={16}
-            src="/globe.svg"
-            width={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="border-border bg-muted/20 mt-20 border-t">
+        <div className="container mx-auto px-4 py-8 text-center">
+          <p className="text-muted-foreground text-sm">
+            © 2025 Trip Savant. The best trip planner ever.
+          </p>
+        </div>
       </footer>
     </div>
   );

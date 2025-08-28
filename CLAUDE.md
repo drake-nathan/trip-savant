@@ -59,6 +59,7 @@ src/
 - Components use Tailwind CSS with CSS variables
 - Theme provider wraps the entire app for consistent theming
 - All UI components are RSC-compatible
+- Avoid `useEffect` unless truly needed - most data fetching, event handling, and state updates can be done declaratively without effects
 
 ### Configuration
 - TypeScript with strict mode enabled
