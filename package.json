@@ -8,8 +8,8 @@
     "dev": "next dev --turbopack",
     "format": "prettier . --write --cache",
     "format:check": "prettier . --check --cache",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --fix --cache",
     "start": "next start"
   },
   "dependencies": {
