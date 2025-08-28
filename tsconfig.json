@@ -7,8 +7,11 @@
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
+    "moduleDetection": "force",
     "moduleResolution": "bundler",
     "noEmit": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -20,7 +23,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2017"
+    "target": "es2022",
+    "verbatimModuleSyntax": true
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
